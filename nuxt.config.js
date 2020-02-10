@@ -1,11 +1,17 @@
-import axios from "axios"
+import axios from "axios";
+
+const siteURL = "https://cnphysio.co.uk"
 let dynamicRoutes = () => {
-  const routes = axios
-    .get("https://css-tricks.com/wp-json/wp/v2/posts?page=1&per_page=20")
+  let routes = axios
+    .get(`${siteURL}/wp-json/wp/v2/posts?page=1&per_page=20`)
     .then(res => {
       return res.data.map(post => `/blog/${post.slug}`)
-    })
-  console.log(routes)
+    });
+  routes.push(axios
+    .get(`${siteURL}/wp-json/wp/v2/pages?per_page=1000`)
+    .then(res => {
+      return res.data.map(page => `/${page.slug}`)
+    }));
   return routes
 }
 
@@ -46,6 +52,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "~/plugins/pages.server.js",
     "~/plugins/posts.server.js",
     "~/plugins/tags.server.js",
     "~/plugins/dateformat.js"

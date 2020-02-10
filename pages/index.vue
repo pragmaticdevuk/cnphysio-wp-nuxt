@@ -36,6 +36,7 @@
 import AppMasthead from "@/components/AppMasthead.vue";
 
 export default {
+  layout: 'home',
   components: {
     AppMasthead
   },
@@ -46,6 +47,9 @@ export default {
     };
   },
   computed: {
+    menus() {
+      return this.$store.state.menus;
+    },
     posts() {
       return this.$store.state.posts;
     },
@@ -58,7 +62,8 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getPosts");
+    this.$store.dispatch("getMenus");
+    this.$store.dispatch("getPages");
   },
   methods: {
     updateTag(tag) {

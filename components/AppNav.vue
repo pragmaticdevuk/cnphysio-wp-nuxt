@@ -1,13 +1,10 @@
 <template>
   <div class="nav">
     <ul>
-      <li>
-        <nuxt-link exact to="/">
-          <app-icon></app-icon>BlogName
+      <li class="nav-item" v-for="item in menus" :key="item.id">
+        <nuxt-link exact v-bind:to="item.url">
+          {{ item.title }}
         </nuxt-link>
-      </li>
-      <li>
-        <nuxt-link to="/about">About</nuxt-link>
       </li>
     </ul>
   </div>
@@ -19,6 +16,14 @@ import AppIcon from "@/components/AppIcon.vue";
 export default {
   components: {
     AppIcon
+  },
+  computed: {
+    menus() {
+      return this.$store.state.menus;
+    }
+  },
+  created() {
+    this.$store.dispatch("getMenus");
   }
 };
 </script>
